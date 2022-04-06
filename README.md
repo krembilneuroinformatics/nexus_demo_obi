@@ -9,3 +9,4 @@ The repository contains a setup.py file.  Replace the empty string with your Nex
 
 ## Links:
 - Documentation: https://bluebrainnexus.io/docs/index.html
+- reservoir.global project: https://reservoir.global/admin/Test/uhn_demo
