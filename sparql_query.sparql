@@ -1,0 +1,28 @@
+prefix fhir: <http://hl7.org/fhir/>
+prefix nxv: <https://bluebrain.github.io/nexus/vocabulary/>
+
+select * where {
+    ?rs a fhir:ResearchStudy ;
+        fhir:ResearchStudy.identifier/fhir:Identifier.value/fhir:value ?id ;
+        fhir:ResearchStudy.status/fhir:value ?status ;
+        fhir:ResearchStudy.title/fhir:value ?title ;
+        nxv:deprecated false .
+}
+
+
+
+prefix fhir: <http://hl7.org/fhir/>
+prefix nxv: <https://bluebrain.github.io/nexus/vocabulary/>
+prefix kcnietl: <http://www.camh.ca/kcnietl/>
+
+construct { 
+    {resource_id} kcnietl:id ?id . 
+    {resource_id} kcnietl:title ?title . 
+    {resource_id} kcnietl:status ?status . 
+} where { 
+    {resource_id} a fhir:ResearchStudy ;
+        fhir:ResearchStudy.identifier/fhir:Identifier.value/fhir:value ?id ;
+        fhir:ResearchStudy.status/fhir:value ?status ;
+        fhir:ResearchStudy.title/fhir:value ?title ;
+        nxv:deprecated false .
+}
