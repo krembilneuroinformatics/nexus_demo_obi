@@ -1,0 +1,58 @@
+{
+    "@context": [
+        "https://bluebrain.github.io/nexus/contexts/composite-views.json",
+        "https://bluebrain.github.io/nexus/contexts/metadata.json"
+    ],
+    "projections": [
+        {
+            "@id": "https://nexus.camh.ca/v1/views/projection/find_study",
+            "@type": "ElasticSearchProjection",
+            "context": {
+                "@base": "http://www.camh.ca/kcnietl/",
+                "@vocab": "http://www.camh.ca/kcnietl/"
+            },
+            "includeDeprecated": false,
+            "includeMetadata": true,
+            "mapping": {
+                "dynamic": false,
+                "properties": {
+                    "@id": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "@type": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "id": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "title": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "status": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    }
+                }
+            },
+            "query": "prefix fhir: <http://hl7.org/fhir/> prefix nxv: <https://bluebrain.github.io/nexus/vocabulary/> prefix kcnietl: <http://www.camh.ca/kcnietl/> construct { {resource_id} kcnietl:id ?id . {resource_id} kcnietl:title ?title . {resource_id} kcnietl:status ?status . } where { {resource_id} a fhir:ResearchStudy ; fhir:ResearchStudy.identifier/fhir:Identifier.value/fhir:value ?id ; fhir:ResearchStudy.status/fhir:value ?status ; fhir:ResearchStudy.title/fhir:value ?title ; nxv:deprecated false . }",
+            "resourceTypes": [
+                "http://hl7.org/fhir/ResearchStudy"
+            ],
+            "sourceAsText": false
+        }
+    ],
+    "rebuildStrategy": {
+        "@type": "Interval",
+        "value": "365 days"
+    },
+    "sources": [
+        {
+            "@id": "https://nexus.camh.ca/v1/views/source/ProjectEventStream",
+            "@type": "ProjectEventStream"
+        }
+    ]
+}

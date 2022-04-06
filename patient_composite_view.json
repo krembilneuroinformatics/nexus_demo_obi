@@ -1,0 +1,61 @@
+{
+    "@context": [
+        "https://bluebrain.github.io/nexus/contexts/composite-views.json",
+        "https://bluebrain.github.io/nexus/contexts/metadata.json"
+    ],
+    "projections": [
+        {
+            "@id": "https://nexus.camh.ca/v1/views/projection/find_patient",
+            "@type": "ElasticSearchProjection",
+            "context": {
+                "@base": "http://www.camh.ca/kcnietl/",
+                "@vocab": "http://www.camh.ca/kcnietl/"
+            },
+            "includeDeprecated": false,
+            "includeMetadata": true,
+            "mapping": {
+                "dynamic": false,
+                "properties": {
+                    "@id": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "@type": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "gender": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "patient_id": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "postal_code": {
+                        "copy_to": "_all_fields",
+                        "type": "keyword"
+                    },
+                    "_all_fields": {
+                        "type": "text"
+                    }
+                }
+            },
+            "query": "prefix fhir: <http://hl7.org/fhir/> prefix nxv: <https://bluebrain.github.io/nexus/vocabulary/> prefix kcnietl: <http://www.camh.ca/kcnietl/> construct { {resource_id} kcnietl:patient_id ?id . {resource_id} kcnietl:postal_code ?postal_code . {resource_id} kcnietl:gender ?gender . } where { {resource_id} a fhir:Patient ; fhir:Patient.address/fhir:Address.postalCode/fhir:value ?postal_code ; fhir:Patient.gender/fhir:value ?gender ; fhir:Patient.identifier/fhir:Identifier.value/fhir:value ?id ; nxv:deprecated false . }",
+            "resourceTypes": [
+                "http://hl7.org/fhir/Patient"
+            ],
+            "sourceAsText": false
+        }
+    ],
+    "rebuildStrategy": {
+        "@type": "Interval",
+        "value": "365 days"
+    },
+    "sources": [
+        {
+            "@id": "https://nexus.camh.ca/v1/views/source/ProjectEventStream",
+            "@type": "ProjectEventStream"
+        }
+    ]
+}
